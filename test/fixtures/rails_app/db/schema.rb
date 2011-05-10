@@ -197,4 +197,12 @@ ActiveRecord::Schema.define do
     t.string :domain, :null => false
   end
 
+  ##
+  # Non-standard datatype
+  #
+
+  create_table :documents, :force => true do |t|
+    t.xml :document
+  end
+
 end

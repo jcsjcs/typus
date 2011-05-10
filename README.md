@@ -2,6 +2,11 @@
 
 **Typus** allows trusted users to edit structured content.
 
+## This fork
+
+- Treat a SQLServer xml datatype as text. (An xml column from the SQLServer adapter currently has a type of nil).
+- Raise a meaningful exception if an ActiveRecord column has a nil type and there is no workaround.
+
 ## Key Features
 
 - Built-in Authentication and Access Control Lists.

@@ -42,6 +42,28 @@ class ClassMethodsTest < ActiveSupport::TestCase
       assert_equal expected.map { |i| i.last }, Post.model_fields.values
     end
 
+    should "verify Document model_fields" do
+      Document.columns.last.stubs(:type).returns(nil)
+      Document.columns.last.stubs(:sql_type).returns('xml')
+      expected = [[:id, :integer],
+                  [:document, :text]]
+
+      assert_equal expected.map { |i| i.last }, Document.model_fields.values
+    end
+
+  end
+
+  context "typus_sql_type_to_ruby_type" do
+
+    should "return text for an xml sql type" do
+      assert_equal :text, TypusUser.send( :typus_sql_type_to_ruby_type, 'xml')
+    end
+
+    should "raise error when sql type is unknown" do
+      assert_raises RuntimeError do
+        TypusUser.send(:typus_sql_type_to_ruby_type, 'bogus')
+      end
+    end
   end
 
   context "model_relationships" do

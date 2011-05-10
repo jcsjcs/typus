@@ -8,7 +8,7 @@ module Typus
         # Model fields as an <tt>ActiveSupport::OrderedHash</tt>.
         def model_fields
           ActiveSupport::OrderedHash.new.tap do |hash|
-            columns.map { |u| hash[u.name.to_sym] = u.type.to_sym }
+            columns.map { |u| hash[u.name.to_sym] = u.type.nil? ? typus_sql_type_to_ruby_type(u.sql_type) : u.type.to_sym }
           end
         end
 
@@ -98,6 +98,18 @@ module Typus
                 fields_with_type[field.to_s] = attribute_type
               end
             end
+          end
+        end
+
+        private
+
+        # If an ActiveRecord column has a nil +type+ attribute, return a useful symbol based on the column's +sql_type+.
+        def typus_sql_type_to_ruby_type( sql_type )
+          case sql_type
+          when 'xml'
+            :text
+          else
+            raise "Typus does not know how to handle '#{sql_type}' SQL datatype" 
           end
         end
 
