@@ -15,4 +15,10 @@ Typus.setup do |config|
   # Define user_fk.
   config.user_fk = "<%= options[:user_fk] %>"
 
+  # Define which roles go to the admin page after login:
+  # Can be "all" or a comma-separated list: "admin,editor".
+  # config.post_login_to_admin = "all"
+  # Define route to follow after login for roles not included in +post_login_to_admin+.
+  # config.post_login_route    = "/"
+
 end

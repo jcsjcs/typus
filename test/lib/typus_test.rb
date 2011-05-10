@@ -139,4 +139,28 @@ class TypusTest < ActiveSupport::TestCase
 
   end
 
+  context "post_login_to_admin" do
+
+    should "return default value" do
+      assert_equal "all", Typus.post_login_to_admin
+    end
+
+    should "be overrided on demand" do
+      assert Typus.respond_to?("post_login_to_admin=")
+    end
+
+  end
+
+  context "post_login_route" do
+
+    should "return default value" do
+      assert_equal "/", Typus.post_login_route
+    end
+
+    should "be overrided on demand" do
+      assert Typus.respond_to?("post_login_route=")
+    end
+
+  end
+
 end

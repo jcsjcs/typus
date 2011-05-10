@@ -78,6 +78,38 @@ class Admin::SessionControllerTest < ActionController::TestCase
       assert_redirected_to admin_dashboard_path
     end
 
+    should "create_session_for_an_enabled_user_and_redirect_to_home" do
+      orig_admin = Typus.post_login_to_admin
+      orig_route = Typus.post_login_route
+      Typus.post_login_to_admin = "only_some_other_role"
+      Typus.post_login_route    = "/"
+
+      post :create, { :typus_user => { :email => @typus_user.email, :password => "12345678" } }
+
+      assert_equal @typus_user.id, @request.session[:typus_user_id]
+      assert_response :redirect
+      assert_redirected_to '/'
+
+      Typus.post_login_to_admin = orig_admin
+      Typus.post_login_route    = orig_route
+    end
+
+    should "create_session_for_an_enabled_user_and_redirect_to_dashboard" do
+      orig_admin = Typus.post_login_to_admin
+      orig_route = Typus.post_login_route
+      Typus.post_login_to_admin = "one, #{@typus_user.role},another"
+      Typus.post_login_route    = "/"
+
+      post :create, { :typus_user => { :email => @typus_user.email, :password => "12345678" } }
+
+      assert_equal @typus_user.id, @request.session[:typus_user_id]
+      assert_response :redirect
+      assert_redirected_to admin_dashboard_path
+
+      Typus.post_login_to_admin = orig_admin
+      Typus.post_login_route    = orig_route
+    end
+
     should "destroy" do
       delete :destroy
 

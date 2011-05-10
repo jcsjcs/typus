@@ -64,6 +64,12 @@ module Typus
   mattr_accessor :username
   @@username = "admin"
 
+  mattr_accessor :post_login_to_admin
+  @@post_login_to_admin = "all"
+
+  mattr_accessor :post_login_route
+  @@post_login_route = "/"
+
   ##
   # Pagination options
   #
