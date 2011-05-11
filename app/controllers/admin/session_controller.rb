@@ -16,7 +16,7 @@ class Admin::SessionController < Admin::BaseController
              if Typus.post_login_to_admin == 'all' || Typus.post_login_to_admin.gsub(' ','').split(',').include?( user.role )
                params[:back_to] || admin_dashboard_path
              else
-               Typus.post_login_route
+               params[:back_to] || Typus.post_login_route
              end
            else
              new_admin_session_path(:back_to => params[:back_to])
